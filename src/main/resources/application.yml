@@ -1,0 +1,16 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: demo
+
+  sql:
+    init:
+      platform: mysql
+
+  datasource:
+    url: jdbc:mysql://database-2.ctizjtx2utrj.ap-northeast-2.rds.amazonaws.com:3306/mydb?autoReconnect=true&setTimezone=Asia/Seoul # 변경해주세요
+    username: admin # Database ID
+    password: 12345678 # Database Password
+    driver-class-name: com.mysql.cj.jdbc.Driver
