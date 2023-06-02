@@ -45,7 +45,7 @@ public class UserController {
      */
     //Query String
     @ResponseBody
-    @GetMapping("") // (GET) 127.0.0.1:9000/app/users
+    @GetMapping("/getByEmail") // (GET) 127.0.0.1:9000/app/users
     public BaseResponse<List<GetUserRes>> getUsers(@RequestParam(required = false) String Email) {
         try{
             if(Email == null){
@@ -86,9 +86,10 @@ public class UserController {
      */
     // Body
     @ResponseBody
-    @PostMapping("")
+    @PostMapping(value = "create")
     public BaseResponse<PostUserRes> createUser(@RequestBody PostUserReq postUserReq) {
         // email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
+        System.out.println("Controller entry");
         if(postUserReq.getEmail() == null){
             return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
         }
@@ -98,8 +99,10 @@ public class UserController {
         }
         try{
             PostUserRes postUserRes = userService.createUser(postUserReq);
+            System.out.println("Controller: User create complete");
             return new BaseResponse<>(postUserRes);
         } catch(BaseException exception){
+            System.out.println("Controller : Base Exception occurs, exception : "+exception);
             return new BaseResponse<>((exception.getStatus()));
         }
     }
@@ -109,14 +112,15 @@ public class UserController {
      * @return BaseResponse<PostLoginRes>
      */
     @ResponseBody
-    @PostMapping("/logIn")
+    @PostMapping(value="login")
     public BaseResponse<PostLoginRes> logIn(@RequestBody PostLoginReq postLoginReq){
         try{
-            // 로그인 값들에 대한 형식적인 validatin 처리해주셔야합니다!
+            // 로그인 값들에 대한 형식적인 validation 처리해주셔야합니다!
             // 유저의 status ex) 비활성화된 유저, 탈퇴한 유저 등을 관리해주고 있다면 해당 부분에 대한 validation 처리도 해주셔야합니다.
             PostLoginRes postLoginRes = userProvider.logIn(postLoginReq);
             return new BaseResponse<>(postLoginRes);
         } catch (BaseException exception){
+            System.out.println("Controller : exception -> " + exception +"\n "+exception.toString());
             return new BaseResponse<>(exception.getStatus());
         }
     }
@@ -146,6 +150,19 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
-
+    @GetMapping("/getUserByAge") // (GET) 127.0.0.1:9000/app/users
+    public BaseResponse<List<GetUserRes>> getUserResListByAge(@RequestParam(value="age",required = false) int age) {
+        try{
+            if(age < 0){
+                List<GetUserRes> getUsersRes = userProvider.getUsers();
+                return new BaseResponse<>(getUsersRes);
+            }
+            // Get Users
+            List<GetUserRes> getUsersRes = userProvider.getUserResListByAge(age);
+            return new BaseResponse<>(getUsersRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 
 }

@@ -6,6 +6,7 @@ import com.example.demo.config.BaseException;
 import com.example.demo.src.user.model.*;
 import com.example.demo.utils.JwtService;
 import com.example.demo.utils.SHA256;
+import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,7 @@ import static com.example.demo.config.BaseResponseStatus.*;
 @Service
 public class UserService {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    private final UserDao userDao;
+  private final UserDao userDao;
     private final UserProvider userProvider;
     private final JwtService jwtService;
 
@@ -28,7 +28,6 @@ public class UserService {
         this.userDao = userDao;
         this.userProvider = userProvider;
         this.jwtService = jwtService;
-
     }
 
     //POST
@@ -39,20 +38,15 @@ public class UserService {
         }
 
         String pwd;
-        try{
-            //암호화
-            pwd = new SHA256().encrypt(postUserReq.getPassword());
-            postUserReq.setPassword(pwd);
 
-        } catch (Exception ignored) {
-            throw new BaseException(PASSWORD_ENCRYPTION_ERROR);
-        }
+
         try{
             int userIdx = userDao.createUser(postUserReq);
             //jwt 발급.
             String jwt = jwtService.createJwt(userIdx);
             return new PostUserRes(jwt,userIdx);
         } catch (Exception exception) {
+            System.out.println("Service : Exception ignored ->DATABASE_ERROR : "+exception);
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -67,4 +61,5 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
 }

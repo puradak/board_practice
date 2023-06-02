@@ -76,6 +76,7 @@ public class UserProvider {
         String encryptPwd;
         try {
             encryptPwd=new SHA256().encrypt(postLoginReq.getPassword());
+            System.out.println("Password : "+encryptPwd);
         } catch (Exception ignored) {
             throw new BaseException(PASSWORD_DECRYPTION_ERROR);
         }
@@ -91,4 +92,15 @@ public class UserProvider {
 
     }
 
+    public List<GetUserRes> getUserResListByAge(int age) throws BaseException{
+        try{
+            List<GetUserRes> list = userDao.getUserResListByAge(age);
+            return list;
+        }
+        catch (Exception exception) {
+            // Logger를 이용하여 에러를 로그에 기록한다
+            logger.error("Error!", exception);
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }
