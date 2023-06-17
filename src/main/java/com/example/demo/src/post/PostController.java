@@ -5,11 +5,9 @@ import com.example.demo.config.BaseResponse;
 import com.example.demo.src.post.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
@@ -71,15 +69,29 @@ public class PostController {
     }
 
     @ResponseBody
-    @PostMapping(value = "findByTitle")
-    public BaseResponse<List<GetPostRes>> getPostByTitle(@RequestBody GetPostReq getPostReq){
+    @GetMapping(value = "findByTitle")
+    public BaseResponse<List<GetPostRes>> getPostByTitle(@RequestParam GetPostReq getPostReq){
         try{
+            if(getPostReq.getTitle().isEmpty() && getPostReq.getTitle().equals(""))
+                throw new BaseException(EMPTY_POST_TITLE);
             List<GetPostRes> list = this.postProvider.getPostByTitle(getPostReq);
             return new BaseResponse<>(list);
 
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }
-
     }
+    @ResponseBody
+    @GetMapping(value = "getPostContents")
+    public BaseResponse<String> getPostContents (@RequestBody GetPostContentsReq getPostContentsReq){
+        try{
+            //idx가 존재하지 않을 시 예외처리 해야 함
+            String contents = this.postProvider.getPostContents(getPostContentsReq);
+            if(contents == null) throw new BaseException(NOT_EXIST_POST_CONTENTS);
+            return new BaseResponse<>(contents);
+        }catch(BaseException e){
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
 }

@@ -1,7 +1,5 @@
 package com.example.demo.src.post;
 
-import com.example.demo.config.BaseException;
-import com.example.demo.src.board.model.GetBoardRes;
 import com.example.demo.src.post.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -58,10 +56,27 @@ public class PostDao {
     }
 
     public List<GetPostRes> getPostByTitle(GetPostReq getPostReq){
-        String qry = "SELECT boardIdx, userIdx, postIdx FROM Post WHERE postTitle LIKE '%"+getPostReq.getTitle()+"%'";
-        return this.jdbcTemplate.query(qry, (rs,rowNum)->new GetPostRes(
+        String qry = "SELECT boardIdx, userIdx, postIdx, postTitle FROM Post WHERE postTitle LIKE '%"+getPostReq.getTitle()+"%'";
+        return this.jdbcTemplate.query(qry, (rs,rowNum)-> new GetPostRes(
                 rs.getInt("boardIdx"),
                 rs.getInt("userIdx"),
-                rs.getInt("postIdx")));
+                rs.getInt("postIdx"),
+                rs.getString("postTitle")));
     }
+
+    public String getPostContents(GetPostContentsReq getPostContentsReq){
+        String qry = "SELECT postContents FROM Post WHERE boardIdx = ? AND userIdx = ? AND postIdx = ?";
+        Object[] param = new Object[]{
+                getPostContentsReq.getBoardIdx(),
+                getPostContentsReq.getUserIdx(),
+                getPostContentsReq.getPostIdx()
+        };
+        try {
+            return this.jdbcTemplate.queryForObject(qry, (rs, rowNum) -> new String(
+                    rs.getString("postContents")), param);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }

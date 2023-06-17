@@ -44,6 +44,7 @@ public enum BaseResponseStatus {
     NON_EXIST_BOARDIDX(false, HttpStatus.BAD_REQUEST.value(), "유효하지 않은 게시판 IDX입니다."),
     EMPTY_POST_TITLE(false, HttpStatus.BAD_REQUEST.value(), "유효하지 않은 게시판 제목입니다."),
     EMPTY_POST_CONTENTS(false, HttpStatus.BAD_REQUEST.value(), "유효하지 않은 게시판 내용입니다."),
+    NOT_EXIST_POST_CONTENTS(false, HttpStatus.BAD_REQUEST.value(), "해당하는 게시글이 없습니다."),
     /**
      * 50 : Database, Server 오류
      */

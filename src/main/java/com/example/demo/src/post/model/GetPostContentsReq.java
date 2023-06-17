@@ -9,9 +9,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class GetPostRes {
+public class GetPostContentsReq {
     private int postIdx;
     private int boardIdx;
     private int userIdx;
-    private String postTitle;
 }

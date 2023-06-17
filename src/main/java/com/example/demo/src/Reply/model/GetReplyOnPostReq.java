@@ -1,4 +1,4 @@
-package com.example.demo.src.post.model;
+package com.example.demo.src.Reply.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,9 +9,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class GetPostRes {
+public class GetReplyOnPostReq {
     private int postIdx;
-    private int boardIdx;
-    private int userIdx;
-    private String postTitle;
 }
