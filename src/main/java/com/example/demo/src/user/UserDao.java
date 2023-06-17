@@ -122,4 +122,16 @@ public class UserDao {
                         rs.getInt("age")),
                 param);
     }
+
+    public List<GetUserRes> getAllUser(){
+        String query = "SELECT * FROM User";
+        return this.jdbcTemplate.query(query, (rs,rowNum) -> new GetUserRes(
+                        rs.getInt("userIdx"),
+                        rs.getString("userName"),
+                        rs.getString("ID"),
+                        rs.getString("Email"),
+                        rs.getString("password"),
+                        rs.getInt("age")), ""
+        );
+    }
 }

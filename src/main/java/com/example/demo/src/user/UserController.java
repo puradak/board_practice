@@ -27,9 +27,6 @@ public class UserController {
     @Autowired
     private final JwtService jwtService;
 
-
-
-
     public UserController(UserProvider userProvider, UserService userService, JwtService jwtService){
         this.userProvider = userProvider;
         this.userService = userService;
@@ -78,7 +75,6 @@ public class UserController {
         }
 
     }
-
     /**
      * 회원가입 API
      * [POST] /users
@@ -154,8 +150,7 @@ public class UserController {
     public BaseResponse<List<GetUserRes>> getUserResListByAge(@RequestParam(value="age",required = false) int age) {
         try{
             if(age < 0){
-                List<GetUserRes> getUsersRes = userProvider.getUsers();
-                return new BaseResponse<>(getUsersRes);
+                return new BaseResponse<>(REQUEST_ERROR);
             }
             // Get Users
             List<GetUserRes> getUsersRes = userProvider.getUserResListByAge(age);
@@ -165,4 +160,13 @@ public class UserController {
         }
     }
 
+    @GetMapping("/getUserList")
+    public BaseResponse<List<GetUserRes>> getUserList (){
+        try{
+            List<GetUserRes> list = userProvider.getUsers();
+            return new BaseResponse<>(list);
+        }catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }

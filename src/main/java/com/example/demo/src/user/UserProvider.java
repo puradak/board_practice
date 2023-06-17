@@ -53,7 +53,6 @@ public class UserProvider {
         }
     }
 
-
     public GetUserRes getUser(int userIdx) throws BaseException {
         try {
             GetUserRes getUserRes = userDao.getUser(userIdx);
@@ -99,6 +98,17 @@ public class UserProvider {
         }
         catch (Exception exception) {
             // Logger를 이용하여 에러를 로그에 기록한다
+            logger.error("Error!", exception);
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetUserRes> getAllUser() throws BaseException {
+        try{
+            List<GetUserRes> list = userDao.getAllUser();
+            return list;
+        }
+        catch (Exception exception){
             logger.error("Error!", exception);
             throw new BaseException(DATABASE_ERROR);
         }

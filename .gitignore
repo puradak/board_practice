@@ -6,3 +6,5 @@
 /build/classes/java/main/
 
 Secret.java
+application.yml
+logs
