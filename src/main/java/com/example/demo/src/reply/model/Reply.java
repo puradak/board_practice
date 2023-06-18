@@ -1,4 +1,4 @@
-package com.example.demo.src.Reply.model;
+package com.example.demo.src.reply.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -23,7 +23,7 @@ public class BoardDao {
         Object[] createBoardParams = new Object[]{boardName};
         this.jdbcTemplate.update(qry,createBoardParams);
 
-        String lastInsertIdQuery = "select last_insert_id()";
+        String lastInsertIdQuery = "select last_insert_id() FROM Board";
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
     }
     /*모든 게시판 조회*/

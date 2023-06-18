@@ -37,16 +37,16 @@ public enum BaseResponseStatus {
 
     FAILED_TO_LOGIN(false,HttpStatus.NOT_FOUND.value(),"없는 아이디거나 비밀번호가 틀렸습니다."),
 
-    // [POST] /board
+    // /board
     POST_BOARD_EXISTS_BOARD(false,HttpStatus.BAD_REQUEST.value(), "이미 존재하는 게시판입니다."),
 
-    // [POST] /post
-    NON_EXIST_BOARDIDX(false, HttpStatus.BAD_REQUEST.value(), "유효하지 않은 게시판 IDX입니다."),
+    // /post
+    NOT_EXIST_BOARDIDX(false, HttpStatus.BAD_REQUEST.value(), "유효하지 않은 게시판 IDX입니다."),
     EMPTY_POST_TITLE(false, HttpStatus.BAD_REQUEST.value(), "유효하지 않은 게시판 제목입니다."),
     EMPTY_POST_CONTENTS(false, HttpStatus.BAD_REQUEST.value(), "유효하지 않은 게시판 내용입니다."),
     NOT_EXIST_POST_CONTENTS(false, HttpStatus.BAD_REQUEST.value(), "해당하는 게시글이 없습니다."),
 
-    // [POST] /reply
+    // /reply
     NOT_EXIST_REPLY_IDX(false, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 댓글 IDX 입니다."),
     /**
      * 50 : Database, Server 오류

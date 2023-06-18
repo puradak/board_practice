@@ -1,8 +1,10 @@
-package com.example.demo.src.Reply;
+package com.example.demo.src.reply;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
-import com.example.demo.src.Reply.model.Reply;
+import com.example.demo.src.reply.model.CreateReplyReq;
+import com.example.demo.src.reply.model.CreateReplyRes;
+import com.example.demo.src.reply.model.Reply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -58,7 +60,7 @@ public class ReplyController {
         }
     }
     @ResponseBody
-    @PostMapping(value = "update")
+    @PutMapping(value = "update")
     public BaseResponse<String> update(@RequestBody Reply reply){
         try{
             String result = "";
@@ -71,7 +73,7 @@ public class ReplyController {
         }
     }
     @ResponseBody
-    @PostMapping(value = "delete")
+    @DeleteMapping(value = "delete")
     public BaseResponse<String> delete(int replyIdx){
         try{
             String result = "";
@@ -80,6 +82,20 @@ public class ReplyController {
 
             return new BaseResponse<>(result);
         } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+    @ResponseBody
+    @PostMapping(value = "create")
+    public BaseResponse<CreateReplyRes> create(@RequestBody CreateReplyReq createReplyReq){
+        try{
+            //아래 코드 삭제할 것
+            if(createReplyReq == null) throw new BaseException(NOT_EXIST_REPLY_IDX);
+            //udix 유효 확인
+            //pdix 유효 확인
+            CreateReplyRes result = this.replyService.create(createReplyReq);
+            return new BaseResponse<>(result);
+        }catch(BaseException e){
             return new BaseResponse<>(e.getStatus());
         }
     }

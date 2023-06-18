@@ -1,6 +1,8 @@
-package com.example.demo.src.Reply;
+package com.example.demo.src.reply;
 
-import com.example.demo.src.Reply.model.Reply;
+import com.example.demo.src.reply.model.CreateReplyReq;
+import com.example.demo.src.reply.model.CreateReplyRes;
+import com.example.demo.src.reply.model.Reply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -87,5 +89,23 @@ public class ReplyDao {
             System.out.println("Exception 발견\n"+e.getStackTrace());
             return 0;
         }
+    }
+
+    public CreateReplyRes create(CreateReplyReq createReplyReq){
+        String indexQry = "SELECT last_insert_id()";
+        int replyIdx = this.jdbcTemplate.queryForObject(indexQry,int.class);
+        String qry = "INSERT INTO Reply VALUES ("+replyIdx+",?,?,?,0,now())";
+
+        Object[] param = new Object[]{
+                createReplyReq.getPostIdx(),
+                createReplyReq.getUserIdx(),
+                createReplyReq.getReplyContents()
+        };
+        this.jdbcTemplate.update(qry,param);
+
+        CreateReplyRes result = new CreateReplyRes(
+                replyIdx, createReplyReq.getPostIdx(),createReplyReq.getUserIdx(), createReplyReq.getReplyContents(), 0
+        );
+        return result;
     }
 }
