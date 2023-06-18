@@ -54,7 +54,7 @@ public class PostController {
     }
 
     @ResponseBody
-    @PostMapping(value = "update")
+    @PutMapping(value = "update")
     public BaseResponse<String> updatePost(@RequestBody UpdatePostReq updatePostReq){
         try{
             if(updatePostReq.getPostTitle().equals(""))
