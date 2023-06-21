@@ -2,7 +2,6 @@ package com.example.demo.config;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * 에러 코드 관리
@@ -27,27 +26,40 @@ public enum BaseResponseStatus {
     RESPONSE_ERROR(false, HttpStatus.NOT_FOUND.value(), "값을 불러오는데 실패하였습니다."),
 
 
+    /**
+    * 400x : User Request 오류
+    */
     // users
     USERS_EMPTY_USER_ID(false, HttpStatus.BAD_REQUEST.value(), "유저 아이디 값을 확인해주세요."),
 
     // [POST] /users
-    POST_USERS_EMPTY_EMAIL(false, HttpStatus.BAD_REQUEST.value(), "이메일을 입력해주세요."),
-    POST_USERS_INVALID_EMAIL(false, HttpStatus.BAD_REQUEST.value(), "이메일 형식을 확인해주세요."),
-    POST_USERS_EXISTS_EMAIL(false,HttpStatus.BAD_REQUEST.value(),"중복된 이메일입니다."),
+    POST_USERS_EMPTY_EMAIL(false, 4000, "이메일을 입력해주세요."),
+    POST_USERS_INVALID_EMAIL(false, 4001, "이메일 형식을 확인해주세요."),
+    POST_USERS_EXISTS_EMAIL(false,4002,"중복된 이메일입니다."),
 
-    FAILED_TO_LOGIN(false,HttpStatus.NOT_FOUND.value(),"없는 아이디거나 비밀번호가 틀렸습니다."),
+    FAILED_TO_LOGIN(false,4003,"없는 아이디거나 비밀번호가 틀렸습니다."),
 
+    /**
+     * 401x : Board Request 오류
+     */
     // [POST] /board
-    POST_BOARD_EXISTS_BOARD(false,HttpStatus.BAD_REQUEST.value(), "이미 존재하는 게시판입니다."),
+    POST_BOARD_EXISTS_BOARD(false,4010, "이미 존재하는 게시판입니다."),
 
+    /**
+     * 402x : Post Requset 오류
+     */
     // [POST] /post
-    NON_EXIST_BOARDIDX(false, HttpStatus.BAD_REQUEST.value(), "유효하지 않은 게시판 IDX입니다."),
-    EMPTY_POST_TITLE(false, HttpStatus.BAD_REQUEST.value(), "유효하지 않은 게시판 제목입니다."),
-    EMPTY_POST_CONTENTS(false, HttpStatus.BAD_REQUEST.value(), "유효하지 않은 게시판 내용입니다."),
-    NOT_EXIST_POST_CONTENTS(false, HttpStatus.BAD_REQUEST.value(), "해당하는 게시글이 없습니다."),
+    NON_EXIST_BOARDIDX(false, 4020, "유효하지 않은 게시판 IDX입니다."),
+    EMPTY_POST_TITLE(false, 4021, "유효하지 않은 게시판 제목입니다."),
+    EMPTY_POST_CONTENTS(false, 4022, "유효하지 않은 게시판 내용입니다."),
+    NOT_EXIST_POST_CONTENTS(false, 4023, "해당하는 게시글이 없습니다."),
 
+    /**
+     * 403x : Reply Request 오류
+     */
     // [POST] /reply
-    NOT_EXIST_REPLY_IDX(false, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 댓글 IDX 입니다."),
+    NOT_EXIST_REPLY_IDX(false, 4030, "존재하지 않는 댓글 IDX 입니다."),
+
     /**
      * 50 : Database, Server 오류
      */
