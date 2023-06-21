@@ -1,7 +1,7 @@
-package com.example.demo.src.Reply;
+package com.example.demo.src.reply;
 
 import com.example.demo.config.BaseException;
-import com.example.demo.src.Reply.model.Reply;
+import com.example.demo.src.reply.model.Reply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

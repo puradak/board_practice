@@ -32,7 +32,7 @@ public class PostController {
         try{
             // 유효한 게시판인지 확인
             if(postProvider.isExistBoardIdx(createPostReq.getBoardIdx()) != 1){
-                return new BaseResponse<>(NON_EXIST_BOARDIDX);
+                return new BaseResponse<>(NOT_EXIST_BOARDIDX);
             }
             Post post = postService.createPost(createPostReq);
             return new BaseResponse<>(post);
@@ -54,7 +54,7 @@ public class PostController {
     }
 
     @ResponseBody
-    @PostMapping(value = "update")
+    @PutMapping(value = "update")
     public BaseResponse<String> updatePost(@RequestBody UpdatePostReq updatePostReq){
         try{
             if(updatePostReq.getPostTitle().equals(""))
